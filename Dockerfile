@@ -4,7 +4,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
 RUN set -x; \
-  apt-get update && apt-get install -y \
+  apt-get update && apt-get install -y --no-install-recommends \
   openssh-server \
   zlib1g-dev \
   build-essential \
@@ -39,21 +39,13 @@ ENV RAILS_ROOT /var/www/cenit
 RUN mkdir -p $RAILS_ROOT
 WORKDIR /var/www/cenit
 
+RUN git clone --single-branch --branch master https://github.com/alejandro-kid/cenit.git /var/www/cenit
+
 RUN gem install bundler:2.3
-COPY Gemfile .
-COPY Gemfile.lock .
 RUN gem install rails bundler
 RUN bundle install --without development test
-
-COPY Rakefile .
-COPY bin bin/
-COPY config config/
-COPY public public/
-COPY lib lib/
-COPY app app/
+COPY application.yml config/application.yml
 
 RUN yarn install --check-files
 
-COPY ./env.sh .
-RUN chmod +x env.sh
-
+CMD ["bundle exec unicorn_rails -c config/unicorn.rb"]
