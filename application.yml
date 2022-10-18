@@ -1,2 +1,2 @@
-HOMEPAGE: http://ec2-34-210-217-236.us-west-2.compute.amazonaws.com:8080
-'Cenit::Admin:default_uri': http://ec2-34-210-217-236.us-west-2.compute.amazonaws.com
+HOMEPAGE: ${HOMEPAGE}
+'Cenit::Admin:default_uri': ${ADMIN_UI}
