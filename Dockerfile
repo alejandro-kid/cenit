@@ -44,8 +44,9 @@ RUN git clone --single-branch --branch master https://github.com/alejandro-kid/c
 RUN gem install bundler:2.3
 RUN gem install rails bundler
 RUN bundle install --without development test
-COPY application.yml config/application.yml
+COPY env.sh .
+RUN chmod +x env.sh
 
 RUN yarn install --check-files
 
-CMD ["bundle exec unicorn_rails -c config/unicorn.rb"]
+CMD ["/bin/sh", "-c", "/var/www/cenit/env.sh; bundle exec unicorn_rails -c config/unicorn.rb"]
