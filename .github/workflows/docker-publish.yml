@@ -32,6 +32,10 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.TOKEN }}
 
+      - name: Short SHA
+        id: short-sha
+        uses: benjlevesque/short-sha@v1.2
+
       - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@v4.0.1
